@@ -11,7 +11,7 @@ Official implementation of our paper **"LiBOG: Lifelong Learning for Black-Box O
 
 ## Citing
 
-LiBOG: Lifelong Learning for Black-Box Optimizer Generation, Jiyuan Pei, Yi Mei, Jialin Liu and Mengjie Zhang. Accepted at IJCAI 2025.
+LiBOG: Lifelong Learning for Black-Box Optimizer Generation, Jiyuan Pei, Yi Mei, Jialin Liu and Mengjie Zhang. Accepted at 34th International Joint Conference on Artificial Intelligence (IJCAI) 2025.
 
 ```
 @inproceedings{LiBOG,
