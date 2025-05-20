@@ -620,24 +620,11 @@ class trainer_LiBOG(object):
         surr1 = ratios * advantages
         surr2 = torch.clamp(ratios, 1-eps_clip, 1+eps_clip) * advantages
         reinforce_loss = -torch.min(surr1, surr2).mean()
-        # old_value = self.last_old_value
-        # define baseline loss
-        # if old_value is None:
-        #     baseline_loss = ((bl_val - Reward) ** 2).mean()
-        #     old_value = bl_val.detach()
-        # else:
-        #     vpredclipped = old_value + torch.clamp(bl_val - old_value, - eps_clip, eps_clip)
-        #     v_max = torch.max(((bl_val - Reward) ** 2), ((vpredclipped - Reward) ** 2))
-        #     baseline_loss = v_max.mean()
-        # calculate loss
-        # loss = baseline_loss + reinforce_loss
         
         fisher = {name: torch.zeros_like(param) for name, param in self.actor.named_parameters()}
 
-        # self.actor.train()
         self.set_training()
         self.actor.zero_grad()
-        # loss.backward()
         reinforce_loss.backward()
         
         for name, param in self.actor.named_parameters():
@@ -651,9 +638,7 @@ class trainer_LiBOG(object):
         load_data = torch_load_cpu(load_path)
         
         self.old_parameters = load_data.get('old_parameters',{}),
-        # self.last_batch_memory = load_data.get('last_batch_memory',None)
         self.self.final_epoch_memory = load_data.get('self.final_epoch_memory',None)
-        # self.last_old_value = load_data.get('last_old_value',{})
         self.last_pop_feature = load_data.get('last_pop_feature',{})
         self.fisher_infos = load_data.get('fisher_infos',{})
         self.bsf_actor_model_performance  = load_data.get('bsf_actor_model_performance',None)
@@ -676,19 +661,6 @@ class trainer_LiBOG(object):
         # done
         print(' [*] Loading data from {}'.format(load_path))
 
-    # save trained model
-    # def save(self, epoch):
-    #     print('Saving model and state...')
-    #     torch.save(
-    #         {
-    #             'actor': get_inner_model(self.actor).state_dict(),
-    #             'critic':get_inner_model(self.critic).state_dict(),
-    #             'optimizer': self.optimizer.state_dict(),
-    #             'rng_state': torch.get_rng_state(),
-    #             'cuda_rng_state': torch.cuda.get_rng_state_all(),
-    #         },
-    #         os.path.join(self.opts.save_dir, 'epoch-{}.pt'.format(epoch))
-    #     )
     def save_lifelong(self, epoch, task_id):
         print('Saving model and state...')
         torch.save(
@@ -699,9 +671,7 @@ class trainer_LiBOG(object):
                 'rng_state': torch.get_rng_state(),
                 'cuda_rng_state': torch.cuda.get_rng_state_all(),
                 'old_parameters':self.old_parameters,
-                # 'last_batch_memory':self.last_batch_memory.clone(),
                 'final_epoch_memory':None if self.final_epoch_memory is None else self.final_epoch_memory.clone(),
-                # 'last_old_value':self.last_old_value,
                 'last_pop_feature':self.last_pop_feature,
                 'fisher_infos':self.fisher_infos,
                 'bsf_actor_model_performance':self.bsf_actor_model_performance,
@@ -752,8 +722,6 @@ class trainer_LiBOG(object):
         task=TaskForTrain(learning_env,teacher_env,random_env,opts.batch_size,opts)
         tokenizer=MyTokenizer()
 
-        # for epoch in range(100):
-        #     test_ratio=rollout(opts,self,epoch,tb_logger,tokenizer,testing=True)
         update_step=0
 
         test_ratio_list=[]
@@ -827,7 +795,6 @@ class trainer_LiBOG(object):
             
             
             training_instance_ids = list(set(training_instance_ids))
-            # todo: delete
             # log to screen
             # print(f'test_ratio_list:{test_ratio_list}')
             print(f'best_test_epoch:{best_test_epoch}')
@@ -906,8 +873,7 @@ class trainer_LiBOG(object):
                 else:
                     seq,const_seq,log_prob,action_dict=self.actor(pop_feature,save_data=True)
                 
-                
-                # next_pop为使用expr更新的population，target_pop为teacher
+         
                 target_pop,next_pop,baseline_pop,expr,is_done=task.step(stu_population,self.opts.skip_step,seq,const_seq,tokenizer,rand_seq,rand_c_seq,baseline_pop)
                 
                 # get reward
@@ -1096,8 +1062,6 @@ class trainer_LiBOG(object):
         for tt in range(len(states)):
             s = states[tt].clone()
             s.requires_grad_()
-            # a = {key:[t.clone().detach().requires_grad_() for t in tensor_list] for key, tensor_list in action[tt].items()}
-            # a = {key:[t.clone() for t in tensor_list] for key, tensor_list in action[tt].items()}
             a = action[tt]
             
             s_prob = self.actor(s,fix_action = a) + 1e-8
@@ -1107,7 +1071,6 @@ class trainer_LiBOG(object):
             t_prob.requires_grad_()
             # teacher_probs.append(t_prob)
             kl_div = torch.nn.functional.kl_div(torch.log(s_prob / s_prob.sum(dim=-1, keepdim=True)), t_prob / t_prob.sum(dim=-1, keepdim=True), reduction='batchmean')
-            # imitation_loss += max(kl_div, 0)
             imitation_loss += torch.maximum(kl_div,torch.tensor(0.0,device=kl_div.device))
         
         imitation_loss /= len(states)

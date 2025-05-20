@@ -1,7 +1,12 @@
 # LiBOG
 
+[![ArXiv](https://img.shields.io/badge/arXiv-2505.13025-b31b1b.svg)](https://arxiv.org/abs/2505.13025)
 
 Official implementation of our paper **"LiBOG: Lifelong Learning for Black-Box Optimizer Generation"**, which is accepted at *IJCAI* 2025. In this work, we tackle the problem of **lifelong learning from a sequence of BBO problem distributions to generate high-performance BBO optimizer** using a novel **LiBOG**, which achieves **good forward transferring, mild catastrophic forgetting and stable learning**.
+
+
+![LiBOG](./LiBOG.png)
+
 
 
 ## Citing
@@ -17,16 +22,9 @@ year={2025},
 }
 ```
 
-![LiBOG](./LiBOG.png)
 
 
 
-
-**Built upon**: [Symbol](https://github.com/MetaEvo/Symbol) – used and extended with MIT License
-
-
-
----
 
 ## Repository Structure
 
@@ -44,6 +42,9 @@ year={2025},
 ├── requirements.txt        # Python dependencies
 └── README.md               # This file
 ```
+
+
+**Built upon**: [Symbol](https://github.com/MetaEvo/Symbol) – used and extended with MIT License
 
 ## Requirements
 
