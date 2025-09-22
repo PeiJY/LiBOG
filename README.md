@@ -5,21 +5,29 @@
 Official implementation of our paper **"LiBOG: Lifelong Learning for Black-Box Optimizer Generation"**, which is accepted at *IJCAI* 2025. In this work, we tackle the problem of **lifelong learning from a sequence of BBO problem distributions to generate high-performance BBO optimizer** using a novel **LiBOG**, which achieves **good forward transferring, mild catastrophic forgetting and stable learning**.
 
 
-![LiBOG](./LiBOG.png)
-
+<!-- ![LiBOG](./LiBOG.png) -->
+![LiBOG](./LiBOG_poster.png)
 
 
 ## Citing
 
-LiBOG: Lifelong Learning for Black-Box Optimizer Generation, Jiyuan Pei, Yi Mei, Jialin Liu and Mengjie Zhang. Accepted at 34th International Joint Conference on Artificial Intelligence (IJCAI) 2025.
+LiBOG: Lifelong Learning for Black-Box Optimizer Generation, Jiyuan Pei, Yi Mei, Jialin Liu and Mengjie Zhang. Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI) 2025. pp. 8912--8920.
 
 ```
 @inproceedings{LiBOG,
-author={Pei, Jiyuan and Mei, Yi, and Liu, Jialin and Zhang, Mengjie},
-title={LiBOG: Lifelong Learning for Black-Box Optimizer Generation},
-booktitle = {34th International Joint Conference on Artificial Intelligence},
-year={2025},
+  title     = {LiBOG: Lifelong Learning for Black-Box Optimizer Generation},
+  author    = {Pei, Jiyuan and Mei, Yi and Liu, Jialin and Zhang, Mengjie},
+  booktitle = {Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence, {IJCAI-25}},
+  publisher = {International Joint Conferences on Artificial Intelligence Organization},
+  editor    = {James Kwok},
+  pages     = {8912--8920},
+  year      = {2025},
+  month     = {8},
+  note      = {Main Track},
+  doi       = {10.24963/ijcai.2025/991},
+  url       = {https://doi.org/10.24963/ijcai.2025/991},
 }
+
 ```
 
 
